@@ -4,7 +4,7 @@ var		graphqlHTTP	= require( 'express-graphql' )
 
 module.exports = function( app ) {
 	// Attached the graphql express object to the app to plug into the requests
-	app.use( '/graphql', graphqlHTTP( function( req ) {
+	app.use( '/api/gql', graphqlHTTP( function( req ) {
 		return {
 			schema,
 			graphiql: true,
