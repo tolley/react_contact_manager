@@ -1,0 +1,13 @@
+{
+  user(id: 2) {
+    id
+    username
+    password
+  }
+}
+
+
+http://localhost:8000/graphql
+
+
+http://localhost:8000/graphql?query=%7B%0A%20%20user(id%3A%202)%20%7B%0A%20%20%20%20id%0A%20%20%20%20username%0A%20%20%20%20password%0A%20%20%7D%0A%7D%0A&operationName=null
