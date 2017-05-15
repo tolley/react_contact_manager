@@ -8,5 +8,10 @@ module.exports = {
 	signedCookieSecret: 'whynot',
 
 	// The env (dev or prod)
-	env: 'prod'
+	env: 'prod',
+
+	// The secret key used in hashing user passwords
+	password_hash_key: 'lovesexsecretgod',
+
+	urlPrefix: '/api'
 }

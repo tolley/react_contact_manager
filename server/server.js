@@ -3,7 +3,8 @@ var express			= require( 'express' )
 	,bodyParser		= require( 'body-parser' )
 	,config			= require( './config')
 	,cookieParser	= require( 'cookie-parser' )
-	,graphQlSetup	= require( './app/controllers/graphql' );
+	,graphQlSetup	= require( './app/controllers/graphql' )
+	,passport		= require( 'passport' );
 
 // Create our http server object
 var app = express();
@@ -16,6 +17,11 @@ app.use( bodyParser.urlencoded( { extended: false } ) );
 app.use( bodyParser.json( {} ) );
 app.use( cookieParser( config.signedCookieSecret, {} ) );
 
+// Configure passport for local logins
+require( './config/passport' )( passport );
+app.use( passport.initialize() );
+app.use( passport.session() );
+
 // Setup graphql
 graphQlSetup( app );
 
@@ -23,7 +29,7 @@ graphQlSetup( app );
 // app.use( '/contacts', verifyUser );
 
 // Include/initialize our controllers
-// require( './controllers/userController.js' ).controller( app );
+require( './app/controllers/AuthController.js' ).controller( app );
 // require( './controllers/contactController.js' ).controller( app );
 
 // Set up the http server so that it listen for requests
@@ -32,7 +38,7 @@ app.listen( config.server.port, function() {
 } );
 
 // Test route to make sure this works
-app.get( '/test', function( req, res ) {
+app.get( '/api/test', function( req, res ) {
 	res.send( 'Hello Server!' );
 	res.end();
 } );
