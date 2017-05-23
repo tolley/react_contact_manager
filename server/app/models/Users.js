@@ -1,5 +1,7 @@
 var sequelize = require( '../../config/sequelize' )
-	,Sequelize = require( 'sequelize' );
+	,Sequelize = require( 'sequelize' )
+	,Sha1 = require( '../modules/sha1' )
+	,config = require( '../../config' );
 
 var Users = sequelize.define( 'users', {
 	// Define fields for the users table

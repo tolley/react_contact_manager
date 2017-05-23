@@ -11,7 +11,7 @@ module.exports = {
 	env: 'prod',
 
 	// The secret key used in hashing user passwords
-	password_hash_key: 'lovesexsecretgod',
+	hashKey: 'l0v3s3xs3cr3tg0d',
 
 	urlPrefix: '/api'
 }

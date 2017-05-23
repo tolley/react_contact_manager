@@ -30,6 +30,7 @@ graphQlSetup( app );
 
 // Include/initialize our controllers
 require( './app/controllers/AuthController.js' ).controller( app );
+require( './app/controllers/UserController.js' ).controller( app );
 // require( './controllers/contactController.js' ).controller( app );
 
 // Set up the http server so that it listen for requests

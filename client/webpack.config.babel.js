@@ -52,6 +52,10 @@ if( TARGET === 'start' || ! TARGET ) {
 		devServer: {
 			contentBase: PATHS.build,
 
+			// testing
+			disableHostCheck: true,
+			public: 'rcm.com',
+
 			// Enable history API fallback so HTML5 History API based
 			// routing works.  This is a good default that will come in 
 			// handy in more complicated setups

@@ -1,7 +1,8 @@
 var passport = require( 'passport' )
 	,LocalStrategy = require( 'passport-local' ).Strategy
 	,Users = require( '../app/models/Users' )
-	,Sha1 = require( '../app/modules/sha1.js' );
+	,Sha1 = require( '../app/modules/sha1.js' )
+	,config = require( './index' );
 
 module.exports = function( passport ) {
 	// Used to serialize the user for the session
@@ -27,7 +28,7 @@ module.exports = function( passport ) {
 	}, function( req, email, password, done ) {
 		process.nextTick( function() {
 			Users.findOne( { where: {
-				password: Sha1.hash( req.body.password ),
+				password: Sha1.hash( config.hashKey + req.body.password ),
 				username: req.body.username
 			} } )
 			.then( function( result ) {
