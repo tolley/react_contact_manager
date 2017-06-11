@@ -1,10 +1,16 @@
 // Requires
 var express			= require( 'express' )
+	,session 		= require( 'express-session' )
+	,redisStore		= require( 'connect-redis' )( session )
 	,bodyParser		= require( 'body-parser' )
 	,config			= require( './config')
 	,cookieParser	= require( 'cookie-parser' )
 	,graphQlSetup	= require( './app/controllers/graphql' )
-	,passport		= require( 'passport' );
+	,passport		= require( 'passport' )
+	,uuid			= require( 'uuid' );
+
+// Create our redis store object here so both express and socket.io can use it
+var redisLocalStore = new redisStore( config.redisStoreOptions );
 
 // Create our http server object
 var app = express();
@@ -16,6 +22,16 @@ app.use( express.static( './public' ) );
 app.use( bodyParser.urlencoded( { extended: false } ) );
 app.use( bodyParser.json( {} ) );
 app.use( cookieParser( config.signedCookieSecret, {} ) );
+
+// Passport's session piggy backs on express-session
+app.use( session( {
+	genid:	function( req ) {
+		return uuid.v4();
+	},
+	secret: config.hashKey,
+	saveUninitialized: false,
+	resave: false
+} ) );
 
 // Configure passport for local logins
 require( './config/passport' )( passport );
@@ -40,7 +56,7 @@ app.listen( config.server.port, function() {
 
 // Test route to make sure this works
 app.get( '/api/test', function( req, res ) {
-	res.send( 'Hello Server!' );
+	console.log( 'req.user = ', req.user );
 	res.end();
 } );
 

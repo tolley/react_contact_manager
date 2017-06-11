@@ -33,9 +33,11 @@ module.exports = function( passport ) {
 			} } )
 			.then( function( result ) {
 				if( result && result.dataValues ) {
+					console.log( 'login with dataValues = ', result.dataValues );
 					return done( null, result.dataValues );
 				}
 				else {
+					console.log( 'calling done in the else block' );
 					return done( null, false );
 				}
 

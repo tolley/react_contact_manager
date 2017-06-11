@@ -24,7 +24,7 @@ module.exports.controller = function( app ) {
 			Users.build( userData )
 				.save()
 				.then( function( user ) {
-					res.redirect( 301, '/#/login?please=login' );
+					res.redirect( 301, '/#/main' );
 					console.log( 'Here in users.save.then with user = ', user );
 					res.end();
 				} )
