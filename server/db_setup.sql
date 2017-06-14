@@ -1,7 +1,7 @@
 create table users (
 	id int(11) unsigned not null auto_increment primary key,
 	username varchar(255) unique default '' comment 'Need to allow nulls cause tokens can be created before the user has had a change to fill out their profile in the case of 3rd party logins',
-	password varchar(255) default '' comment 'third party logins wont have passwords so we need to allow nulls',
+	password varchar(255) default '' comment 'Third party logins wont have passwords so we need to allow nulls',
 	create_date timestamp,
 	last_update timestamp
 );
@@ -12,23 +12,25 @@ create trigger user_insert
 	for each row set new.create_date = now(),
 					new.last_update = now();
 
-# Insert some dummy data into users
-insert into users 
-( username, password ) 
-values 
-( 'tolley', 'password' );
-
 # Holds individual contact details
-create table contact (
+create table contacts (
 	id int(11) unsigned not null auto_increment primary key,
-	uid int(11) unsigned not null,
-	name varchar(255) not null,
+	user_id int(11) unsigned not null comment 'The id of the user that owns this contact',
+	first_name varchar(255),
+	last_name varchar(255),
+	email_address varchar(255),
+	phone varchar(10),
+	street_address varchar(255),
+	street_address2 varchar(255),
+	city varchar(255),
+	state varchar(2),
+	zip varchar(5),
 	create_date timestamp,
 	last_update timestamp
 );
 
 # A trigger to enter the create date and last update for a contact when one is inserted
-create trigger contact_insert
-	before insert on contact
+create trigger contacts_insert
+	before insert on contacts
 	for each row set new.create_date = now(),
 					new.last_update = now();

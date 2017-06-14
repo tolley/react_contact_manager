@@ -11,7 +11,7 @@ module.exports.controller = function( app ) {
 
 	// Handles the submission of the login form
 	app.post( urlPrefix + '/auth/locallogin', passport.authenticate( 'local-login', {
-		successRedirect: '/#?status=success',
+		successRedirect: '/#dashboard',
 		failureRedirect: '/#?status=fail',
 	} ) );
 
@@ -35,10 +35,11 @@ module.exports.controller = function( app ) {
 	//////////////////////////////////////////////////////////////////////////////////////////
 
 	// A method to test the isLoggedIn middleware
-	app.get( urlPrefix + '/auth/testmiddleware', isLoggedIn, function( req, res ) {
+/*	app.get( urlPrefix + '/auth/testmiddleware', isLoggedIn, function( req, res ) {
 		res.send( 'You should only see this if you are logged in' );
 		console.log( 'req.user = ', req.user );
 	} );
+*/
 
 	app.get( urlPrefix + '/auth/verify', function( req, res ) {
 		if( req && req.user ) {

@@ -5,6 +5,7 @@ import ButtonGroup from 'react-bootstrap/lib/ButtonGroup';
 
 import Login from './Login';
 import Signup from './Signup';
+import Dashboard from './Dashboard';
 
 export default class App extends React.Component {
 	constructor( props ) {
@@ -17,6 +18,7 @@ export default class App extends React.Component {
 				<span>
 					<Route path="/login" component={Login} />
 					<Route path="/signup" component={Signup} />
+					<Route path="/dashboard" component={Dashboard} />
 				</span>
 			</Router>
 		);

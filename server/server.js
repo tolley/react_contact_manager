@@ -55,8 +55,13 @@ app.listen( config.server.port, function() {
 } );
 
 // Test route to make sure this works
+var Contacts = require( './app/models/Contacts' );
 app.get( '/api/test', function( req, res ) {
-	console.log( 'req.user = ', req.user );
-	res.end();
+	Contacts.findAll( {
+			raw: true
+		} )
+		.then( function( data ) {
+			console.log( 'contacts data = ', data );
+			res.end();
+		} );
 } );
-

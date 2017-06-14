@@ -23,12 +23,17 @@
   },
   "dependencies": {
     "css-loader": "^0.23.1",
+    "fetch": "^1.1.0",
+    "file-loader": "^0.11.2",
+    "fs": "0.0.1-security",
+    "jquery": "^3.2.1",
     "json-loader": "^0.5.4",
     "merge": "^1.2.0",
     "react": "^15.0.2",
     "react-bootstrap": "^0.29.4",
     "react-dom": "^15.0.2",
     "react-router": "^2.0.0",
-    "style-loader": "^0.13.1"
+    "request": "^2.81.0",
+    "style-loader": "^0.13.2"
   }
 }

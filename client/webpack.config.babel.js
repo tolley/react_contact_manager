@@ -25,7 +25,33 @@ const common = {
 		filename: 'bundle.js'
 	},
 	module: {
-		loaders: [ {
+		loaders: [
+		{
+			test: /\.scss$/,
+			loaders: ['style','css','sass'],
+			include: PATHS.app
+		},
+		{
+			test: /\.css$/,
+			loader: "style-loader!css-loader",
+			include: PATHS.app
+
+		},
+		{
+			test: /\.jsx$/,
+			loaders: ['babel'],
+			include: PATHS.app
+		},
+		{
+			test: /\.json$/,
+			loader: 'json-loader'
+		},
+		{
+			test: /\.(ttf|eot|svg|woff(2)?)(\?[a-z0-9]+)?$/,
+			loader: 'file-loader'
+		} ]
+		/////////////////////////////////////////////////////////////////////
+/*		loaders: [ {
 			// Test expects a regex.  Note the slashes
 			test: /\.css$/,
 			loaders: ['style', 'css'],
@@ -43,6 +69,7 @@ const common = {
 			// In addition to being slow, that will most likely result in an error.
 			include: PATHS.app
 		} ]
+*/
 	}
 };
 
