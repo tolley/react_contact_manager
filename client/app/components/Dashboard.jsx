@@ -1,10 +1,15 @@
 import React from 'react';
-
 import $ from 'jquery';
+
+import CreateContact from './CreateContact';
 
 export default class Dashboard extends React.Component {
 	constructor( props ) {
 		super( props );
+
+		this.state = {
+			showCreateContactDlg: false
+		};
 
 		$.get( '/api/auth/verify', '{user(id: 6){username id}}', 
 			(data) => {
@@ -22,11 +27,29 @@ export default class Dashboard extends React.Component {
 			}, 'json' );
 	}
 
+	closeCreateContactDlg() {
+		this.setState( { showCreateContactDlg: "false" } );
+	}
+
+	openCreateContactDlg() {
+		this.setState( { showCreateContactDlg: "true" } );
+	}
+
 	render() {
 		return (
-			<h1>
-				Dashboard loaded!1
-			</h1>
+			<span>
+				<h1>
+					Welcome to the Dashboard!
+				</h1>
+				<br />
+
+				<button onClick={() => {this.openCreateContactDlg()}}>
+					Create Contact
+				</button>
+				<CreateContact
+					open={this.state.showCreateContactDlg} 
+					closeMethod={() => {this.closeCreateContactDlg()}} />
+			</span>
 		)
 	}
 }
