@@ -1,8 +1,10 @@
+// Works
 {
-  user(id: 2) {
+  contacts(first_name: "Chris") {
     id
-    username
-    password
+    user_id
+    first_name
+    last_name
   }
 }
 
@@ -11,3 +13,45 @@ http://localhost:8000/graphql
 
 
 http://localhost:8000/graphql?query=%7B%0A%20%20user(id%3A%202)%20%7B%0A%20%20%20%20id%0A%20%20%20%20username%0A%20%20%20%20password%0A%20%20%7D%0A%7D%0A&operationName=null
+
+// Query variables for contact add
+{
+  "contact": {
+    "user_id": 6,
+    "first_name": "Tester",
+    "last_name":"McTestface",
+    "email_address":"test@test.com",
+    "phone":"4349293661",
+    "state":"VA",
+    "zip":"20165"
+  }
+}
+
+mutation contacts_mutation{
+  add(user_id:"6", 
+    first_name:"Inserted",
+    last_name:"Procedurally"
+  ){
+    user_id,
+    first_name
+    last_name
+  }
+}
+
+mutation contacts_mutation{
+  update(
+    id:"23", 
+    first_name:"Updated",
+    last_name:"ByGraphQL"
+  ){
+    first_name
+    last_name
+    email_address
+  }
+}
+
+mutation contacts_mutation{
+  delete (
+    id:"2", 
+  ) 
+}
