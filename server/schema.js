@@ -10,7 +10,7 @@ let contactType = new gql.GraphQLObjectType( {
   description: 'An individual contact',
 
   // Define the fields available that are associated to a given contact
-  fields: contactFields
+  fields: contactFields.all
 } );
 
 var queryType = new gql.GraphQLObjectType( {
@@ -27,13 +27,16 @@ var queryType = new gql.GraphQLObjectType( {
 
       // Let the user query on all fields for now
       // args will automatically be mapped to `where`
-      args: contactFields,
+      args: contactFields.all,
 
       // Plug in the sequelize Contacts model to use to resolve queries
       resolve: new resolver.resolver( Contacts, {
         before: function( findOptions, args, context ) {
           // Add the id of the logged in user to the where clause so that user's can't 
           // query contacts for other users
+          if( ! findOptions.where )
+            findOptions.where = {};
+
           findOptions.where.user_id = context.user.id;
           return findOptions;
         }
@@ -46,21 +49,12 @@ var queryType = new gql.GraphQLObjectType( {
 var mutationInsert = {
   type: contactType,
   descripton: "Inserts a new contact to the currently logged in user",
-  args: {
-    user_id: {
-      name: 'The user that owns this contact',
-      type: gql.GraphQLString
-    },
-    first_name: {
-      name: 'The contacts first name',
-      type: gql.GraphQLString
-    },
-    last_name: {
-      name: 'The contacts last name',
-      type: gql.GraphQLString
-    }
-  },
+  args: contactFields.insertable,
+
   resolve: function( root, args ) {
+    // Add the user id to the data to insert
+    args.user_id = root.id;
+
     return Contacts.build( args ).save();
   }
 };
@@ -68,20 +62,8 @@ var mutationInsert = {
 // The update/modify contact mutation
 var mutationUpdate = {
   type: contactType,
-  args: {
-    id: {
-      name: 'The primary key of the contact',
-      type: new gql.GraphQLNonNull( gql.GraphQLString )
-    },
-    first_name: {
-      name: 'The contacts first name',
-      type: gql.GraphQLString
-    },
-    last_name: {
-      name: 'The contacts last name',
-      type: gql.GraphQLString
-    }
-  },
+  description: "Updates contact data",
+  args: contactFields.all,
   resolve: function( root, args ) {
     // Build the where clause for use in the update and the following query
     const whereClause = {

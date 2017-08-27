@@ -21,7 +21,7 @@ module.exports = function( app ) {
 
 	// Make sure a user is logged in for all /contacts/* routes
 	// Uncomment this before committing!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-//	app.use( urlPrefix + '/gql', verifyUser );
+	app.use( urlPrefix + '/gql', verifyUser );
 
 	// Attached the graphql express object to the app to plug into the requests
 	app.use( urlPrefix + '/gql', graphqlHTTP( function( req ) {
