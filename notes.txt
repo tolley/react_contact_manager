@@ -16,7 +16,7 @@ http://localhost:8000/graphql?query=%7B%0A%20%20user(id%3A%202)%20%7B%0A%20%20%2
 
 // Query variables for contact add
 {
-  "contact": {
+  contact: {
     "user_id": 6,
     "first_name": "Tester",
     "last_name":"McTestface",
@@ -28,11 +28,10 @@ http://localhost:8000/graphql?query=%7B%0A%20%20user(id%3A%202)%20%7B%0A%20%20%2
 }
 
 mutation contacts_mutation{
-  add(user_id:"6", 
+  add(
     first_name:"Inserted",
     last_name:"Procedurally"
   ){
-    user_id,
     first_name
     last_name
   }
@@ -40,7 +39,7 @@ mutation contacts_mutation{
 
 mutation contacts_mutation{
   update(
-    id:"23", 
+    id:"XX", 
     first_name:"Updated",
     last_name:"ByGraphQL"
   ){
@@ -52,6 +51,6 @@ mutation contacts_mutation{
 
 mutation contacts_mutation{
   delete (
-    id:"2", 
+    id:"XX", 
   ) 
 }
