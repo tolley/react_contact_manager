@@ -14,19 +14,6 @@ http://localhost:8000/graphql
 
 http://localhost:8000/graphql?query=%7B%0A%20%20user(id%3A%202)%20%7B%0A%20%20%20%20id%0A%20%20%20%20username%0A%20%20%20%20password%0A%20%20%7D%0A%7D%0A&operationName=null
 
-// Query variables for contact add
-{
-  contact: {
-    "user_id": 6,
-    "first_name": "Tester",
-    "last_name":"McTestface",
-    "email_address":"test@test.com",
-    "phone":"4349293661",
-    "state":"VA",
-    "zip":"20165"
-  }
-}
-
 mutation contacts_mutation{
   add(
     first_name:"Inserted",
@@ -36,6 +23,21 @@ mutation contacts_mutation{
     last_name
   }
 }
+
+////////////////////////////////////////////////////////
+mutation contacts_mutation($first_name:String, $last_name:String){
+  add( first_name:$first_name,
+       last_name:$last_name ){
+    first_name
+    last_name
+  }
+}
+
+{
+  "first_name": "variable",
+  "last_name": "worked!"
+}
+////////////////////////////////////////////////////////
 
 mutation contacts_mutation{
   update(

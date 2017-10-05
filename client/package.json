@@ -34,6 +34,7 @@
     "react-bootstrap": "^0.29.5",
     "react-dom": "^15.0.2",
     "react-modal": "^1.7.5",
-    "react-router": "^2.0.0"
+    "react-router": "^2.0.0",
+    "reqwest": "^2.0.5"
   }
 }

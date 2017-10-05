@@ -24,7 +24,19 @@ export default class Dashboard extends React.Component {
 		// Load the contacts from the server
 		$.post({
 			url: '/api/gql',
-			data: JSON.stringify( { query: "{ contacts {first_name, last_name} }" } ),
+			data: JSON.stringify( {
+				query: `{ 
+					contacts {
+						first_name,
+						last_name, 
+						email_address, 
+						phone, 
+						street_address,
+						street_address2,
+						city,
+						state,
+						zip} }`
+			} ),
 			contentType: 'application/json'
 		})
 		.done( (response) => {
