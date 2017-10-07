@@ -2,6 +2,7 @@ import React from 'react';
 import Modal from 'react-modal';
 import {Button} from 'react-bootstrap';
 import Input from './Inputs/Input'
+import ContactModel from './ContactModel'
 import reqwest from 'reqwest'
 
 export default class CreateContact extends React.Component {
@@ -30,27 +31,16 @@ export default class CreateContact extends React.Component {
 
 	handleSubmit( e ) {
 		e.preventDefault();
-
-		// Send a graphql query to create a new contact
-		reqwest( {
-			url: '/api/gql?raw',
-			method: 'post',
-			contentType: 'application/json',
-			accept: 'application/json',
-			data: JSON.stringify( {
-				query: `mutation contacts_mutation($first_name:String, $last_name:String){
-						  add( first_name:$first_name,
-						       last_name:$last_name ){
-						    first_name
-						    last_name
-						  }
-						}`,
-				variables: this.state.formFields
-			} ),
-			success: (res) => {
-				this.setState( {formFields: {}, open: false} );
-			}
+		ContactModel.insert( this.state.formFields, this.props.onNewContact );
+		
+		this.setState( {
+			formFields: {}
 		} );
+
+		if( this.props.closeMethod && 
+			typeof this.props.closeMethod == 'function' ) {
+				this.props.closeMethod();
+		}
 	}
 
 	render() {

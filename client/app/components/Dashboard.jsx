@@ -9,7 +9,7 @@ export default class Dashboard extends React.Component {
 
 		this.state = {
 			showCreateContactDlg: false,
-			contacts: false
+			contacts: []
 		};
 
 		$.get( '/api/auth/verify', '{user(id: 6){username id}}', 
@@ -40,16 +40,28 @@ export default class Dashboard extends React.Component {
 			contentType: 'application/json'
 		})
 		.done( (response) => {
-			this.setState( { contacts: response.data.contacts } );
+			var contactsArray = [];
+			for( var n in response.data.contacts ) {
+				contactsArray.push( response.data.contacts[n] );
+			}
+			this.setState( { contacts: contactsArray } );
 		} );
 	}
-
+ 
 	closeCreateContactDlg() {
 		this.setState( { showCreateContactDlg: "false" } );
 	}
 
 	openCreateContactDlg() {
 		this.setState( { showCreateContactDlg: "true" } );
+	}
+
+	onNewContactAdd( newContact ) {
+		// Add the new state to the contacts object
+		this.setState( {
+			showCreateContactDlg: false,
+			contacts: this.state.contacts.push( newContact )
+		} );
 	}
 
 	renderContacts() {
@@ -88,7 +100,15 @@ export default class Dashboard extends React.Component {
 				</button>
 				<CreateContact
 					open={this.state.showCreateContactDlg} 
-					closeMethod={() => {this.closeCreateContactDlg()}} />
+					closeMethod={() => {this.closeCreateContactDlg()}}
+					onNewContact={(newContact) => {
+						var allContacts = this.state.contacts;
+						allContacts.push( newContact );
+
+						this.setState( {
+							contacts: allContacts
+						} );
+					}} />
 			</span>
 		)
 	}
