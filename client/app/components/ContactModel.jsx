@@ -30,7 +30,17 @@ export default class ContactModal {
 
 	// Deletes a contact and calls a callback after the async call returns
 	static delete( id, callback ) {
+		const query = JSON.stringify( {
+			query: `mutation contacts_mutation{
+			  delete (
+			    id: "${id}"
+			  ) 
+			}`
+		} );
 
+		doGQLRequest( query, (result) => {
+			callback( id );
+		} );
 	}
 
 	// Pulls the contact data associated to the contact with id

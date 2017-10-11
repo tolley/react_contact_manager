@@ -1,4 +1,5 @@
 import React from 'react';
+import ContactModel from './ContactModel'
 import $ from 'jquery';
 
 import CreateContact from './CreateContact';
@@ -27,6 +28,7 @@ export default class Dashboard extends React.Component {
 			data: JSON.stringify( {
 				query: `{ 
 					contacts {
+						id,
 						first_name,
 						last_name, 
 						email_address, 
@@ -64,6 +66,18 @@ export default class Dashboard extends React.Component {
 		} );
 	}
 
+	onDeleteContact( cid ) {
+		ContactModel.delete( cid, (cid) => {
+			var contactsArray = this.state.contacts.filter( function( obj ) {
+				return obj.id !== cid;
+			} );
+
+			this.setState( {
+				contacts: contactsArray
+			} );
+		} );
+	}
+
 	renderContacts() {
 		// Make sure there are contacts to render
 		if( this.state.contacts || this.state.contacts.length > 0 ) {
@@ -71,6 +85,10 @@ export default class Dashboard extends React.Component {
 				return (
 					<li key={contact.first_name + ' ' + contact.last_name}>
 						{contact.first_name + ' ' + contact.last_name}
+						<a href="javascript:void(0)" 
+							onClick={()=>{this.onDeleteContact(contact.id)}}>
+								x
+						</a>
 					</li>
 				);
 			} );
