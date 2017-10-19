@@ -15,7 +15,7 @@ export default class ContactModal {
 					  }
 					}`,
 			variables: data
-		} )
+		} );
 		doGQLRequest( query, (result) => {
 			callback( result.data.add );
 		} );
@@ -25,7 +25,21 @@ export default class ContactModal {
 	// Modifies a contact and calls a callback with the new data after 
 	// the async call returns
 	static update( id, data, callback ) {
+		const query = JSON.stringify( {
+			query: `mutation contacts_mutation($first_name:String, $last_name:String){
+					  update( first_name:$first_name,
+					       last_name:$last_name ){
+					    first_name
+					    last_name
+					  }
+					}`,
+			variables: data
+		} );
 
+		doGQLRequest( query, (result) => {
+			console.log( "update returned ", result );
+			callback( result.data.update );
+		} );
 	}
 
 	// Deletes a contact and calls a callback after the async call returns
