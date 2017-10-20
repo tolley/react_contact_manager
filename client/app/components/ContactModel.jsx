@@ -57,9 +57,39 @@ export default class ContactModal {
 		} );
 	}
 
-	// Pulls the contact data associated to the contact with id
-	static get( id, callback ) {
+	// Pulls back a list of all contacts associated to the logged in user
+	static getAll( callback ) {
+		const query = JSON.stringify( {
+			query: `{ contacts {
+				id
+			    first_name
+			    last_name
+			} }`
+		} );
 
+		doGQLRequest( query, (result) => {
+			callback( result.data.contacts );
+		} );
+	}
+
+	// Pulls the contact data associated to the contact with id
+	static getOneById( id, callback ) {
+		const query = JSON.stringify( {
+			query: `{ contacts( id: ${id} ){
+					{
+						id
+					    first_name
+					    last_name
+					    email
+					}
+				} }`,
+			variables: data
+		} );
+
+		doGQLRequest( query, (result) => {
+			console.log( "update returned ", result );
+			callback( result.data.contacts );
+		} );
 	}
 }
 

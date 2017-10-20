@@ -1,8 +1,8 @@
 import React from 'react';
-import ContactModel from './ContactModel'
-import $ from 'jquery';
+import reqwest from 'reqwest';
 
 import CreateContact from './CreateContact';
+import ContactModel from './ContactModel';
 
 export default class Dashboard extends React.Component {
 	constructor( props ) {
@@ -13,38 +13,21 @@ export default class Dashboard extends React.Component {
 			contacts: []
 		};
 
-		$.get( '/api/auth/verify', '{user(id: 6){username id}}', 
+/*		$.get( '/api/auth/verify', '{user(id: 6){username id}}', 
 			(data) => {
 				if( ! data || ! data.logged_in ) {
 					console.log( 'need to redirect to /#login' );
 				}
 			}, 'json' );
+*/
 	}
 
 	componentWillMount() {
-		// Load the contacts from the server
-		$.post({
-			url: '/api/gql',
-			data: JSON.stringify( {
-				query: `{ 
-					contacts {
-						id,
-						first_name,
-						last_name, 
-						email_address, 
-						phone, 
-						street_address,
-						street_address2,
-						city,
-						state,
-						zip} }`
-			} ),
-			contentType: 'application/json'
-		})
-		.done( (response) => {
+		// Pull a list of all contacts
+		ContactModel.getAll( (contacts) => {
 			var contactsArray = [];
-			for( var n in response.data.contacts ) {
-				contactsArray.push( response.data.contacts[n] );
+			for( var n in contacts ) {
+				contactsArray.push( contacts[n] );
 			}
 			this.setState( { contacts: contactsArray } );
 		} );
@@ -92,7 +75,7 @@ export default class Dashboard extends React.Component {
 					</li>
 				);
 			} );
-			return <ul>{contactElems}</ul>
+			return <ul className="contacts_list">{contactElems}</ul>
 		} else {
 			return (
 				<span>
