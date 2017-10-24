@@ -18,10 +18,13 @@
     "babel-preset-react": "^6.5.0",
     "babel-preset-survivejs-kanban": "^0.3.3",
     "babel-register": "^6.8.0",
+    "css-loader": "^0.23.1",
+    "node-sass": "^4.5.3",
+    "sass-loader": "^6.0.6",
+    "style-loader": "^0.13.2",
     "webpack": "^1.13.0",
     "webpack-dev-server": "^1.16.1",
-    "webpack-merge": "^0.12.0",
-    "style-loader": "^0.13.2"
+    "webpack-merge": "^0.12.0"
   },
   "dependencies": {
     "css-loader": "^0.23.1",

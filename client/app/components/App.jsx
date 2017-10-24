@@ -7,6 +7,8 @@ import Login from './Login';
 import Signup from './Signup';
 import Dashboard from './Dashboard';
 
+import '../scss/main.scss';
+
 export default class App extends React.Component {
 	constructor( props ) {
 		super( props );
