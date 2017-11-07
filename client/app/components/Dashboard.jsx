@@ -3,6 +3,8 @@ import reqwest from 'reqwest';
 
 import CreateContact from './CreateContact';
 import ContactModel from './ContactModel';
+import ContactsList from './ContactsList.jsx';
+import ContactsGrid from './ContactsGrid.jsx';
 
 export default class Dashboard extends React.Component {
 	constructor( props ) {
@@ -10,16 +12,9 @@ export default class Dashboard extends React.Component {
 
 		this.state = {
 			showCreateContactDlg: false,
+			contactsViewMode: "list",
 			contacts: []
 		};
-
-/*		$.get( '/api/auth/verify', '{user(id: 6){username id}}', 
-			(data) => {
-				if( ! data || ! data.logged_in ) {
-					console.log( 'need to redirect to /#login' );
-				}
-			}, 'json' );
-*/
 	}
 
 	componentWillMount() {
@@ -62,20 +57,14 @@ export default class Dashboard extends React.Component {
 	}
 
 	renderContacts() {
-		// Make sure there are contacts to render
-		if( this.state.contacts || this.state.contacts.length > 0 ) {
-			let contactElems = this.state.contacts.map( ( contact ) => {
-				return (
-					<li key={contact.first_name + ' ' + contact.last_name}>
-						{contact.first_name + ' ' + contact.last_name}
-						<a href="javascript:void(0)" 
-							onClick={()=>{this.onDeleteContact(contact.id)}}>
-								x
-						</a>
-					</li>
-				);
-			} );
-			return <ul className="contacts_list">{contactElems}</ul>
+		if( this.state.contacts && this.state.contacts.length > 0 ) {
+			if( this.state.contactsViewMode == "list" ) {
+				return <ContactsList contacts={this.state.contacts}
+							delete={(cid)=>this.onDeleteContact(cid)} />;
+			} else if( this.state.contactsViewMode == "grid" ) {
+				return <ContactsGrid contacts={this.state.contacts}
+							delete={(cid)=>this.onDeleteContact(cid)} />;
+			}
 		} else {
 			return (
 				<span>

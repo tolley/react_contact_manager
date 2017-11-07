@@ -1,5 +1,20 @@
 .contacts_list {
-	li {
-		list-style: none;
+	border: solid 1px #AAA;
+	width: 300px;
+	border-bottom: none;
+
+	th {
+		text-align: left;
+		border-bottom: solid 1px #AAA;
+		background-color: #EEE
 	}
+
+	td {
+		border-bottom: solid 1px #AAA;
+	}
+}
+
+div.contacts_grid {
+	border: solid 1px #000;
+	width: 100%;
 }

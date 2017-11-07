@@ -11,7 +11,17 @@ export default class CreateContact extends React.Component {
 
 		this.state = {
 			open: props.open,
-			formFields: {}
+			formFields: {
+				first_name: "",
+				last_name: "",
+				email_address: "",
+				phone: "",
+				street_address: "",
+				street_address2: "",
+				city: "",
+				state: "",
+				zip: ""
+			}
 		};
 	}
 
