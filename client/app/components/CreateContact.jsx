@@ -1,9 +1,11 @@
 import React from 'react';
 import Modal from 'react-modal';
 import {Button} from 'react-bootstrap';
-import Input from './Inputs/Input'
-import ContactModel from './ContactModel'
-import reqwest from 'reqwest'
+import Input from './Inputs/Input';
+import reqwest from 'reqwest';
+
+import ContactModel from './ContactModel';
+import ContactFormFields from './ContactFormFields';
 
 export default class CreateContact extends React.Component {
 	constructor( props ) {
@@ -11,7 +13,7 @@ export default class CreateContact extends React.Component {
 
 		this.state = {
 			open: props.open,
-			formFields: {
+			fields: {
 				first_name: "",
 				last_name: "",
 				email_address: "",
@@ -32,101 +34,48 @@ export default class CreateContact extends React.Component {
 		}
 	}
 
-	handleChange( e ) {
-		var targetField = e.currentTarget.name;
-		var formFields = this.state.formFields;
-		formFields[targetField] = e.currentTarget.value
-		this.setState({formFields: formFields});
+	handleChange( fieldName, newValue ) {
+		var fields = this.state.fields;
+
+		if( fieldName in fields ) {
+			fields[fieldName] = newValue
+			this.setState({fields: fields});
+		}
 	}
 
 	handleSubmit( e ) {
 		e.preventDefault();
-		ContactModel.insert( this.state.formFields, this.props.onNewContact );
+		ContactModel.insert( this.state.fields, this.props.onNewContact );
 		
 		this.setState( {
-			formFields: {}
+			fields: {}
 		} );
 
 		if( this.props.closeMethod && 
 			typeof this.props.closeMethod == 'function' ) {
 				this.props.closeMethod();
 		}
+
+		return false;
 	}
 
 	render() {
 		return (
 			<Modal isOpen={this.state.open}
 					contentLabel="Create Contact">
-				<br />
-				<button onClick={() => {this.props.closeMethod()}}>
-					Cancel
-				</button>
-				<br />
 				<form onSubmit={(e)=>{this.handleSubmit(e)}}>
-					<div className="form_field">
-						<span>First Name</span>
-						<input type="text" name="first_name"
-							value={this.state.formFields.first_name}
-							onChange={(e)=>{this.handleChange(e)}} />
-					</div>
+					<input type="submit" value="Submit" />
+					<button onClick={() => {this.props.closeMethod(); return false;}}>
+						Cancel
+					</button>
 					<br />
-					<div className="form_field">
-						<span>Last Name</span>
-						<input type="text" name="last_name"
-							value={this.state.formFields.last_name}
-							onChange={(e)=>{this.handleChange(e)}} />
-					</div>
-					<br />
-					<div className="form_field">
-						<span>Email Address</span>
-						<input type="text" name="email_address"
-							value={this.state.formFields.email_address}
-							onChange={(e)=>{this.handleChange(e)}} />
-					</div>
-					<br />
-					<div className="form_field">
-						<span>Phone</span>
-						<input type="text" name="phone"
-							value={this.state.formFields.phone}
-							onChange={(e)=>{this.handleChange(e)}} />
-					</div>
-					<br />
-					<div className="form_field">
-						<span>Street Address</span>
-						<input type="text" name="street_address"
-							value={this.state.formFields.street_address}
-							onChange={(e)=>{this.handleChange(e)}} />
-					</div>
-					<br />
-					<div className="form_field">
-						<span>Address 2</span>
-						<input type="text" name="street_address2"
-							value={this.state.formFields.street_address2}
-							onChange={(e)=>{this.handleChange(e)}} />
-					</div>
-					<br />
-					<div className="form_field">
-						<span>City</span>
-						<input type="text" name="city"
-							value={this.state.formFields.city}
-							onChange={(e)=>{this.handleChange(e)}} />
-					</div>
-					<br />
-					<div className="form_field">
-						<span>State</span>
-						<input type="text" name="state"
-							value={this.state.formFields.state}
-							onChange={(e)=>{this.handleChange(e)}} />
-					</div>
-					<br />
-					<div className="form_field">
-						<span>Zip Code</span>
-						<input type="text" name="zip"
-							value={this.state.formFields.zip}
-							onChange={(e)=>{this.handleChange(e)}} />
-					</div>
-					<br />
-					<input type="submit" value="submit" />
+					
+					<ContactFormFields handleChange={(name, value) => {
+											this.handleChange(name, value)}
+										}
+										fields={(fieldName, newValue) => {
+											this.handleChange(fieldName, newValue)}
+										} />
 				</form>
 			</Modal>
 		);

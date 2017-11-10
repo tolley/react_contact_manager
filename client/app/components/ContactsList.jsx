@@ -3,6 +3,7 @@ import React from 'react';
 /*
  * Expected props:
  * delete: function, takes in the id of a contact to delete
+ * edit: function that will initialize the edit dialog
  * contacts: array of contacts
 **/
 
